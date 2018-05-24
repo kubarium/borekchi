@@ -1,6 +1,6 @@
 {
   "name": "borekchi",
-  "description": "A Vue.js project",
+  "description": "A word builder from Unicode letters",
   "version": "1.0.0",
   "author": "kubarium <iam@denizkumsal.com>",
   "license": "MIT",
