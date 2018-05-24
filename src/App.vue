@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     previewLetters(event) {
-      document.querySelectorAll(".card-content")[1].style.display = "block";
+      document.querySelectorAll(".card-content")[1].classList.toggle("visible");
     }
   }
 };
@@ -121,6 +121,9 @@ export default {
 }
 .card-content {
   display: none;
+}
+.visible {
+  display: block;
 }
 /*
 
