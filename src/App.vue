@@ -34,12 +34,13 @@
 
             <h1 class="title is-6">Glyphs</h1>
 
-            <glyphs/>
+            <glyphs :range="384" :assigned="128" name="Latin Extended-A" />
             <glyphs/>
           </div>
           <div class="column">
             <h1 class="title is-6">
               Build your word here
+              <span style="font-size:3em">&#x5408;</span>
             </h1>
           </div>
         </div>
