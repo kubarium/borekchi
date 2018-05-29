@@ -40,8 +40,8 @@
           <div class="column">
             <h1 class="title is-6">
               Build your word here
-              <span style="font-size:3em">&#x5408;</span>
             </h1>
+            <letter v-for="(letter,index) in letters" :set="letter.set" :index="letter.index" :key="index" />
           </div>
         </div>
       </section>
@@ -51,16 +51,27 @@
 
 <script>
 import Glyphs from "./Glyphs";
+import Letter from "./Letter";
 
 export default {
   name: "app",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      letters: [
+        {
+          set: ["a", "b", "c"],
+          index: 2
+        },
+        {
+          set: ["1", "2", "3"],
+          index: 0
+        }
+      ]
     };
   },
   components: {
-    Glyphs
+    Glyphs,
+    Letter
   },
   methods: {}
 };
