@@ -65,6 +65,14 @@ export default {
         {
           set: ["1", "2", "3"],
           index: 0
+        },
+        {
+          set: ["a", "b", "c"],
+          index: 2
+        },
+        {
+          set: ["1", "2", "3"],
+          index: 0
         }
       ]
     };
