@@ -1,17 +1,17 @@
 <template>
   <div class="letter" @mouseover="showController=true" @mouseout="showController=false">
-    {{set[index]}}
+    {{letter.set[letter.index]}}
     <div class="controller" v-show="showController">
-      <button class="material-icons">grain</button>
+      <button class="material-icons">format_list_numbered_rtl</button>
       <button class="material-icons">keyboard_arrow_up</button>
-      <button>
-        <icon name="check-square-o" />
-      </button>
+      <button class="material-icons">grain</button>
       <button class="material-icons">keyboard_arrow_left</button>
-      <input type="text" value="99" class="letter-stepper" disabled>
+      <input type="text" value="9999" class="letter-stepper" disabled>
       <button class="material-icons">keyboard_arrow_right</button>
-      <button>@</button>
+      <button class="material-icons" v-if="letter.disabled" @click="$emit('toggleDisabled',this)" value="true">check_box_outline_blank</button>
+      <button class="material-icons" v-else @click="$emit('toggleDisabled',this)" value="false">check_box</button>
       <button class="material-icons">keyboard_arrow_down</button>
+      <button class="material-icons">cancel</button>
     </div>
 
   </div>
@@ -25,27 +25,40 @@ export default {
       showController: false
     };
   },
-  props: { set: { type: Array }, index: { type: Number } }
+  model: {
+    sik: ""
+  },
+  methods: {},
+  props: ["letter"]
 };
 </script>
 <style lang="sass" scoped>
-$width: 30px;
-$height: 30px;
+$width: 30px
+$height: 30px
 
 .letter
   min-width: $width
   vertical-align: top
   text-align: center
-  border: 1px solid #cecece
-  border-top: 0
-  border-left: 0
+  border: 1px solid rgb(228,225,132)
   display: inline-block
-  box-shadow: 1px 1px #cecece
-  background: rgb(254, 255, 255)
-  background: -moz-linear-gradient(top,rgba(254, 255, 255, 1) 0%,rgba(210, 235, 249, 1) 100%)
-  background: -webkit-linear-gradient(top,rgba(254, 255, 255, 1) 0%,rgba(210, 235, 249, 1) 100%)
-  background: linear-gradient(to bottom,rgba(254, 255, 255, 1) 0%,rgba(210, 235, 249, 1) 100%)
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#d2ebf9',GradientType=0 )
+  box-shadow: 3px 3px 5px #cecece 
+  background: rgb(248,255,232);
+  background: -moz-linear-gradient(top,  rgba(248,255,232,1) 0%, rgba(227,245,171,1) 33%, rgba(183,223,45,1) 100%);
+  background: -webkit-linear-gradient(top,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%);
+  background: linear-gradient(to bottom,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8ffe8', endColorstr='#b7df2d',GradientType=0 );
+
+.letter:not(:first-of-type)
+  border-left-width: 0px
+
+.letter:first-of-type
+  border-top-left-radius: 3px
+  border-bottom-left-radius: 3px
+
+.letter:last-of-type
+  border-top-right-radius: 3px
+  border-bottom-right-radius: 3px
 
 .controller 
   display: grid
@@ -75,21 +88,10 @@ $height: 30px;
     border: none
     background: none
 
+  & button:hover
+    background: rgba(227, 245, 171, .8)
+
 .material-icons
-  font-family: "Material Icons"
-  font-weight: normal
-  font-style: normal
   font-size: $width 
-  display: inline-block
-  line-height: 1
-  text-transform: none
-  letter-spacing: normal
-  word-wrap: normal
-  white-space: nowrap
-  direction: ltr
-  -webkit-font-smoothing: antialiased
-  text-rendering: optimizeLegibility
-  -moz-osx-font-smoothing: grayscale
-  font-feature-settings: "liga"
-  
+
 </style>

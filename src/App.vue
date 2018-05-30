@@ -41,7 +41,9 @@
             <h1 class="title is-6">
               Build your word here
             </h1>
-            <letter v-for="(letter,index) in letters" :set="letter.set" :index="letter.index" :key="index" />
+            <div class="letters">
+              <letter v-for="(letter,index) in letters" @toggleDisabled="sick" v-bind:letter="letter" :key="index" />
+            </div>
           </div>
         </div>
       </section>
@@ -55,8 +57,12 @@ import Letter from "./Letter";
 
 export default {
   name: "app",
+  methods: {},
   data() {
     return {
+      sick: event => {
+        console.log(this);
+      },
       letters: [
         {
           set: ["a", "b", "c"],
@@ -64,7 +70,21 @@ export default {
         },
         {
           set: ["1", "2", "3"],
+          index: 0,
+          disabled: true
+        },
+        {
+          set: ["a", "b", "c"],
+          index: 1
+        },
+        {
+          set: ["1", "2", "3"],
           index: 0
+        },
+        {
+          set: ["1", "2", "3"],
+          index: 0,
+          disabled: true
         },
         {
           set: ["a", "b", "c"],
@@ -85,39 +105,15 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 10px auto;
-  color: #2c3e50;
-}
-.section {
-}
-.column {
-}
-.panel-tabs {
-  overflow-x: auto;
-}
-/*
+<style lang="sass">
+#app 
+  font-family: "Avenir", Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  margin: 10px auto
+  color: #2c3e50
 
-h1,
-h2 {
-  font-weight: normal;
-}
+.panel-tabs 
+  overflow-x: auto
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-} */
 </style>
