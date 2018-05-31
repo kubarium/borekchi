@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <header class="card-header" @click="showGlyphs = !showGlyphs">
+    <header class="card-header" @click="showGlyphs = !showGlyphs" :class="{expanded:showGlyphs}">
       <p class="card-header-title">
         {{name}}
       </p>
@@ -15,7 +15,7 @@
     </header>
     <div class="card-content" v-show="showGlyphs">
       <div class="content has-text-centered">
-        <span v-for="index in assigned" :key="range+index" v-html="`&#x${range - 1 +index}`" :title="range - 1 +index"></span>
+        <span v-for="index in assigned" :key="range+index" v-html="`&#x${(parseInt(range,16) - 1 +index).toString(16)}`" :title="range - 1 +index"></span>
       </div>
     </div>
   </div>
@@ -26,9 +26,9 @@ export default {
   created() {
     console.log(this.range);
   },
-  props: { name, range: { type: Number }, assigned: { type: Number } },
+  props: { name, range: String, assigned: Number },
   data: () => {
-    return { showGlyphs: false };
+    return { showGlyphs: true };
   },
   methods: {
     /* previewGlyphs() {
@@ -38,19 +38,22 @@ export default {
   computed: {}
 };
 </script>
-<style scoped>
-header {
-  cursor: pointer;
-}
-.content {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 21px);
-}
-.content span {
-  outline: 1px dotted #ebebeb;
-}
-.content span:hover {
-  background: #ebebeb;
-  cursor: default;
-}
+<style lang="sass" scoped>
+
+header 
+  cursor: pointer
+
+  &.expanded
+    background: #f5f5f5
+
+.content 
+  display: grid
+  grid-template-columns: repeat(auto-fill, 21px)
+
+  & span 
+    outline: 1px dotted #ebebeb
+
+  & span:hover 
+    background: #ebebeb
+    cursor: default
 </style>

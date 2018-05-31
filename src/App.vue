@@ -15,7 +15,7 @@
             <div class="navbar-item">
               <div class="field is-grouped">
                 <p class="control">
-                  <a class="button is-primary">
+                  <a class="button is-primary" @click="$emit('addLetter')">
                     <span>Add Letter</span>
                   </a>
                 </p>
@@ -34,15 +34,16 @@
 
             <h1 class="title is-6">Glyphs</h1>
 
-            <glyphs :range="384" :assigned="128" name="Latin Extended-A" />
-            <glyphs/>
+            <glyphs range="0x100" :assigned="128" name="Latin Extended-A" />
+            <glyphs range="0x180" :assigned="208" name="Latin Extended-B" />
+            <glyphs range="0x1E00" :assigned="256" name="Latin Extended Additional" />
           </div>
           <div class="column">
             <h1 class="title is-6">
               Build your word here
             </h1>
             <div class="letters">
-              <letter v-for="(letter,index) in letters" @toggleDisabled="sick" v-bind:letter="letter" :key="index" />
+              <letter v-for="(letter,index) in letters" :letter="letter" :key="index" />
             </div>
           </div>
         </div>
@@ -54,19 +55,25 @@
 <script>
 import Glyphs from "./Glyphs";
 import Letter from "./Letter";
+import { eventBus } from "./main";
 
 export default {
   name: "app",
   methods: {},
+  created() {
+    this.$on("addLetter", event => this.letters.push({ set: [4, 5, 6, 7], index: 1, disabled: false }));
+    //    this.$on("addLetter", toggle => console.log("kokuyorsun ulan"));
+
+    eventBus.$on("toggleDisabled", toggle => (this.letters[toggle].disabled = !this.letters[toggle].disabled));
+    eventBus.$on("changeIndex", data => (this.letters[data.letter.$vnode.key].index = data.index));
+  },
   data() {
     return {
-      sick: event => {
-        console.log(this);
-      },
       letters: [
         {
           set: ["a", "b", "c"],
-          index: 2
+          index: 2,
+          disabled: false
         },
         {
           set: ["1", "2", "3"],
@@ -75,11 +82,13 @@ export default {
         },
         {
           set: ["a", "b", "c"],
-          index: 1
+          index: 1,
+          disabled: false
         },
         {
           set: ["1", "2", "3"],
-          index: 0
+          index: 0,
+          disabled: false
         },
         {
           set: ["1", "2", "3"],
@@ -88,11 +97,13 @@ export default {
         },
         {
           set: ["a", "b", "c"],
-          index: 2
+          index: 2,
+          disabled: false
         },
         {
           set: ["1", "2", "3"],
-          index: 0
+          index: 0,
+          disabled: false
         }
       ]
     };

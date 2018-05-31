@@ -7,9 +7,9 @@
       <button class="material-icons">grain</button>
       <button class="material-icons">keyboard_arrow_left</button>
       <input type="text" value="9999" class="letter-stepper" disabled>
-      <button class="material-icons">keyboard_arrow_right</button>
-      <button class="material-icons" v-if="letter.disabled" @click="$emit('toggleDisabled',this)" value="true">check_box_outline_blank</button>
-      <button class="material-icons" v-else @click="$emit('toggleDisabled',this)" value="false">check_box</button>
+      <button class="material-icons" @click="changeIndex">keyboard_arrow_right</button>
+      <button class="material-icons" v-if="letter.disabled" @click="toggleDisabled" value="true">check_box_outline_blank</button>
+      <button class="material-icons" v-else @click="toggleDisabled" value="false">check_box</button>
       <button class="material-icons">keyboard_arrow_down</button>
       <button class="material-icons">cancel</button>
     </div>
@@ -19,22 +19,29 @@
 </template>
 
 <script>
+import { eventBus } from "./main";
+
 export default {
   data: () => {
     return {
       showController: false
     };
   },
-  model: {
-    sik: ""
+  methods: {
+    changeIndex() {
+      eventBus.$emit("changeIndex", { letter: this, index: this.letter.index + 1 });
+    },
+    toggleDisabled(event) {
+      eventBus.$emit("toggleDisabled", this.$vnode.key);
+    }
   },
-  methods: {},
-  props: ["letter"]
+  props: { letter: Object }
 };
 </script>
 <style lang="sass" scoped>
-$width: 30px
-$height: 30px
+$width: 35px
+$height: 35px
+$radius: 4px
 
 .letter
   min-width: $width
@@ -43,22 +50,22 @@ $height: 30px
   border: 1px solid rgb(228,225,132)
   display: inline-block
   box-shadow: 3px 3px 5px #cecece 
-  background: rgb(248,255,232);
-  background: -moz-linear-gradient(top,  rgba(248,255,232,1) 0%, rgba(227,245,171,1) 33%, rgba(183,223,45,1) 100%);
-  background: -webkit-linear-gradient(top,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%);
-  background: linear-gradient(to bottom,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8ffe8', endColorstr='#b7df2d',GradientType=0 );
+  background: rgb(248,255,232)
+  background: -moz-linear-gradient(top,  rgba(248,255,232,1) 0%, rgba(227,245,171,1) 33%, rgba(183,223,45,1) 100%)
+  background: -webkit-linear-gradient(top,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%)
+  background: linear-gradient(to bottom,  rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8ffe8', endColorstr='#b7df2d',GradientType=0 )
 
 .letter:not(:first-of-type)
   border-left-width: 0px
 
 .letter:first-of-type
-  border-top-left-radius: 3px
-  border-bottom-left-radius: 3px
+  border-top-left-radius: $radius
+  border-bottom-left-radius: $radius
 
 .letter:last-of-type
-  border-top-right-radius: 3px
-  border-bottom-right-radius: 3px
+  border-top-right-radius: $radius
+  border-bottom-right-radius: $radius
 
 .controller 
   display: grid
