@@ -44,7 +44,10 @@ header
   cursor: pointer
 
   &.expanded
-    background: #f5f5f5
+    background: #f7f7f7
+
+.card-header-icon
+  padding: .35rem
 
 .content 
   display: grid

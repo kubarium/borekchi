@@ -3,14 +3,14 @@
     {{letter.set[letter.index]}}
     <div class="controller" v-show="showController">
       <button class="material-icons">format_list_numbered_rtl</button>
-      <button class="material-icons">keyboard_arrow_up</button>
+      <button class="material-icons" @dblclick.prevent="changeStepperValue" @mousedown="changeStepperValue" @mouseout="fixStepperValue" @mouseup="fixStepperValue" value="1">keyboard_arrow_up</button>
       <button class="material-icons">grain</button>
-      <button class="material-icons">keyboard_arrow_left</button>
-      <input type="text" value="9999" class="letter-stepper" disabled>
-      <button class="material-icons" @click="changeIndex">keyboard_arrow_right</button>
+      <button class="material-icons" @click="changeIndex" value="decrement">keyboard_arrow_left</button>
+      <input type="text" :value="stepperValue" class="letter-stepper" disabled>
+      <button class="material-icons" @click="changeIndex" value="increment">keyboard_arrow_right</button>
       <button class="material-icons" v-if="letter.disabled" @click="toggleDisabled" value="true">check_box_outline_blank</button>
       <button class="material-icons" v-else @click="toggleDisabled" value="false">check_box</button>
-      <button class="material-icons">keyboard_arrow_down</button>
+      <button class="material-icons" @dblclick.prevent="changeStepperValue" @mousedown="changeStepperValue" @mouseout="fixStepperValue" @mouseup="fixStepperValue" value="-1">keyboard_arrow_down</button>
       <button class="material-icons">cancel</button>
     </div>
 
@@ -24,12 +24,38 @@ import { eventBus } from "./main";
 export default {
   data: () => {
     return {
+      stepperInterval: null,
+      stepperValue: 1,
       showController: false
     };
   },
   methods: {
-    changeIndex() {
-      eventBus.$emit("changeIndex", { letter: this, index: this.letter.index + 1 });
+    changeIndex(event) {
+      eventBus.$emit("changeIndex", {
+        letter: this,
+        index:
+          event.target.value === "increment"
+            ? this.stepperValue
+            : -this.stepperValue
+      });
+    },
+    changeStepperValue(event) {
+      const changeValue = () => {
+        console.log(
+          this.letter.set.length % (this.stepperValue + +event.target.value)
+        );
+      };
+      if (event.type === "dblclick") {
+        return changeValue();
+      }
+
+      if (this.stepperInterval === null) {
+        this.stepperInterval = setInterval(changeValue, 80);
+      }
+    },
+    fixStepperValue(event) {
+      clearInterval(this.stepperInterval);
+      this.stepperInterval = null;
     },
     toggleDisabled(event) {
       eventBus.$emit("toggleDisabled", this.$vnode.key);
