@@ -15,7 +15,7 @@
     </header>
     <div class="card-content" v-show="showGlyphs">
       <div class="content has-text-centered">
-        <span v-for="index in assigned" :key="range+index" v-html="`&#x${(parseInt(range,16) - 1 +index).toString(16)}`" :title="range - 1 +index"></span>
+        <span draggable="true" v-for="index in assigned" :key="range+index" v-html="`&#x${(parseInt(range,16) - 1 +index).toString(16)}`" :title="range - 1 +index"></span>
       </div>
     </div>
   </div>

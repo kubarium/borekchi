@@ -42,7 +42,7 @@
             <h1 class="title is-6">
               Build your word here
             </h1>
-            <div class="letters">
+            <div class="letters" @dragover.prevent="$emit('dragover','dragover')" @drop.prevent="$emit('drop',this)">asd
               <letter v-for="(letter,index) in letters" :letter="letter" :key="index" />
             </div>
           </div>
@@ -61,7 +61,8 @@ export default {
   name: "app",
   methods: {},
   created() {
-    this.$on("addLetter", event => this.letters.push({ set: [4, 5, 6, 7], index: 1, disabled: false }));
+    this.$on("dragover", event => console.log(event));
+    this.$on("drop", event => console.log(event));
     //    this.$on("addLetter", toggle => console.log("kokuyorsun ulan"));
 
     eventBus.$on("toggleDisabled", toggle => (this.letters[toggle].disabled = !this.letters[toggle].disabled));
@@ -69,43 +70,7 @@ export default {
   },
   data() {
     return {
-      letters: [
-        {
-          set: ["a", "b", "c"],
-          index: 2,
-          disabled: false
-        },
-        {
-          set: ["1", "2", "3"],
-          index: 0,
-          disabled: true
-        },
-        {
-          set: ["a", "b", "c"],
-          index: 1,
-          disabled: false
-        },
-        {
-          set: ["1", "2", "3"],
-          index: 0,
-          disabled: false
-        },
-        {
-          set: ["1", "2", "3"],
-          index: 0,
-          disabled: true
-        },
-        {
-          set: ["a", "b", "c"],
-          index: 2,
-          disabled: false
-        },
-        {
-          set: ["1", "2", "3"],
-          index: 0,
-          disabled: false
-        }
-      ]
+      letters: []
     };
   },
   components: {
@@ -126,5 +91,9 @@ export default {
 
 .panel-tabs 
   overflow-x: auto
+
+.letters
+  outline: 1px solid red
+  min-height: 100%
 
 </style>
